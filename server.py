@@ -1,44 +1,52 @@
-#!/usr/bin/env python3
+from flask import Flask, jsonify, request
 
-from http.server import BaseHTTPRequestHandler, HTTPServer
-from urllib.parse import urlparse
-import json
+app = Flask(__name__)
 
-class RequestHandler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        parsed_path = urlparse(self.path)
-        self.send_response(200)
-        self.end_headers()
-        self.wfile.write(json.dumps({
-            'method': self.command,
-            'path': self.path,
-            'real_path': parsed_path.query,
-            'query': parsed_path.query,
-            'request_version': self.request_version,
-            'protocol_version': self.protocol_version
-        }).encode())
-        return
+devs = [
+    {
+        'id': 1,
+        'name': 'Maycon',
+        'lang': 'python'
+    },
+    {
+        'id': 2,
+        'name': 'Willian',
+        'lang': 'python'
+    },
+    {
+        'id': 3,
+        'name': 'Jaime',
+        'lang': 'python'
+    }
+]
 
-    def do_POST(self):
-        content_len = int(self.headers.getheader('content-length'))
-        post_body = self.rfile.read(content_len)
-        data = json.loads(post_body)
+@app.route('/group', methods=['GET'])
+def home():
+    return jsonify(devs), 200
 
-        parsed_path = urlparse(self.path)
-        self.send_response(200)
-        self.end_headers()
-        self.wfile.write(json.dumps({
-            'method': self.command,
-            'path': self.path,
-            'real_path': parsed_path.query,
-            'query': parsed_path.query,
-            'request_version': self.request_version,
-            'protocol_version': self.protocol_version,
-            'body': data
-        }).encode())
-        return
+
+@app.route('/group/<string:lang>', methods=['GET'])
+def devs_per_lang(lang):
+    devs_per_lang = [dev for dev in devs if dev['lang'] == lang]
+    return jsonify(devs_per_lang), 200
+
+
+@app.route('/group/<int:id>', methods=['GET'])
+def devs_per_id(id):
+    for dev in devs:
+        if dev['id'] == id:
+            return jsonify(dev), 200
+
+    return jsonify({'error': 'not found'}), 404
+
+
+@app.route('/group', methods=['POST'])
+def save_dev():
+    data = request.get_json()
+    devs.append(data)
+
+    return jsonify(data), 201
+
 
 if __name__ == '__main__':
-    server = HTTPServer(('192.168.2.100', 8000), RequestHandler)
-    print('Starting server at http://192.168.2.100:8000')
-server.serve_forever()
+    app.run(debug=True)
