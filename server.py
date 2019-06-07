@@ -4,23 +4,16 @@ app = Flask(__name__)
 
 devs = [
     {
-        'id': 1,
-        'name': 'Maycon',
-        'lang': 'python'
-    },
-    {
-        'id': 2,
-        'name': 'Willian',
-        'lang': 'python'
-    },
-    {
-        'id': 3,
-        'name': 'Jaime',
-        'lang': 'python'
+        'reqtime': 1,
+        'contname': 'Maycon',
+        'contid': 'python',
+        'imgid': 'aaaaa',
+        'cpu': 'aaaa',
+        'memory': 'aaa'
     }
 ]
 
-@app.route('/group', methods=['GET'])
+@app.route('/GET_INFO', methods=['GET'])
 def home():
     return jsonify(devs), 200
 
@@ -31,7 +24,7 @@ def devs_per_lang(lang):
     return jsonify(devs_per_lang), 200
 
 
-@app.route('/group/<int:id>', methods=['GET'])
+@app.route('/group/<int:reqtime>', methods=['GET'])
 def devs_per_id(id):
     for dev in devs:
         if dev['id'] == id:
@@ -40,7 +33,7 @@ def devs_per_id(id):
     return jsonify({'error': 'not found'}), 404
 
 
-@app.route('/group', methods=['POST'])
+@app.route('/group', methods=['GET'])
 def save_dev():
     data = request.get_json()
     devs.append(data)
