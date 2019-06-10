@@ -1,44 +1,21 @@
-#!/usr/bin/env python3
-
-from http.server import BaseHTTPRequestHandler, HTTPServer
-from urllib.parse import urlparse
+from flask import Flask, request
 import json
+import docker
+app = Flask(__name__)
 
-class RequestHandler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        parsed_path = urlparse(self.path)
-        self.send_response(200)
-        self.end_headers()
-        self.wfile.write(json.dumps({
-            'method': self.command,
-            'path': self.path,
-            'real_path': parsed_path.query,
-            'query': parsed_path.query,
-            'request_version': self.request_version,
-            'protocol_version': self.protocol_version
-        }).encode())
-        return
+time = []
+@app.route('/GET_INFO', methods=['GET'])
+def home():
+    return json.dumps(time, indent=4), 200
 
-    def do_POST(self):
-        content_len = int(self.headers.getheader('content-length'))
-        post_body = self.rfile.read(content_len)
-        data = json.loads(post_body)
 
-        parsed_path = urlparse(self.path)
-        self.send_response(200)
-        self.end_headers()
-        self.wfile.write(json.dumps({
-            'method': self.command,
-            'path': self.path,
-            'real_path': parsed_path.query,
-            'query': parsed_path.query,
-            'request_version': self.request_version,
-            'protocol_version': self.protocol_version,
-            'body': data
-        }).encode())
-        return
+@app.route('/POST_INFO', methods=['POST'])
+def time_per_lang():
+    if not request.json:
+        return json.dumps("ERRO: Verifique se o post feito esta no formato Json"), 400
+    time.append(request.json)
+    return json.dumps("Sucesso: execute o metodo Get para ver os dados"), 200
 
 if __name__ == '__main__':
-    server = HTTPServer(('192.168.2.100', 8000), RequestHandler)
-    print('Starting server at http://192.168.2.100:8000')
-server.serve_forever()
+    app.run(debug=True, host='0.0.0.0')
+
