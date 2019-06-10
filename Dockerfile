@@ -1,11 +1,10 @@
-FROM ubuntu
+FROM ubuntu:latest
 LABEL version="1.0.0" description="Server Grupo 4" maintainer="grupo 4"
-RUN cd / && mkdir Server && chmod 777 -R Server/
-COPY ./vagrant/server.py /Server/
-VOLUME /Server/
+RUN apt-get update -y
+RUN apt-get install -y python-pip python-dev build-essential
 EXPOSE 5000
-ENV POST=http://localhost:5000//POST_INFO
-ENV GET=http://localhost:5000//GET_INFO
-WORKDIR /Server
-ENTRYPOINT ["/Server"]
-CMD ["python3", "Server.py"]
+COPY . /Slice-Ativ_1
+WORKDIR /Slice-Ativ_1
+RUN pip install flask
+ENTRYPOINT ["python"]
+CMD ["server.py"]
