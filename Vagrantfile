@@ -3,8 +3,6 @@
 #Esse codigo vai criar as duas vms com configuracao basica do vagrant
 
 Vagrant.configure("2") do |config|
-  config.vm.provision "shell", inline: "Creating Vagrant images!!!"
-
   config.vm.define "Master" do |vm1|
     vm1.vm.provider "virtualbox" do |vb|
       vb.memory = "4096"

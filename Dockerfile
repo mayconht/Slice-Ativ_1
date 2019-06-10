@@ -1,6 +1,10 @@
 FROM ubuntu:latest
-RUN apt-get update
-MAINTAINER Grupo4 
-COPY server.py /home/vagrant/server/Slice-Ativ_1/server.py
-EXPOSE  8000
-CMD ["python3", "/home/vagrant/server/Slice-Ativ_1/server.py", "-p 8000"]
+LABEL version="1.0.0" description="Server Grupo 4" maintainer="grupo 4"
+RUN apt-get update -y
+RUN apt-get install -y python-pip python-dev build-essential
+EXPOSE 5000
+COPY . /Slice-Ativ_1
+WORKDIR /Slice-Ativ_1
+RUN pip install flask
+ENTRYPOINT ["python"]
+CMD ["server.py"]
