@@ -53,6 +53,7 @@ Executando as configuraçoes nas VM'se
 Subindo aplicativo no docker na Master
     **Janela 1  - Master**
         git clone https://github.com/mayconht/Slice-Ativ_1.git
+        cd Slice-Ativ_1
         cd server
         sudo docker build -t server:latest .
         (vc deverá ver a mensagem: Successfully built)
@@ -63,5 +64,14 @@ Subindo aplicativo no docker na Master
 
 Subindo aplicativo no docker Worker
     **Janela 2  - Worker**
-      git clone https://github.com/mayconht/Slice-Ativ_1.git
+        git clone https://github.com/mayconht/Slice-Ativ_1.git
+        cd Slice-Ativ_1
+        cd client
+        sudo docker build -t client:latest .
+        (vc deverá ver a mensagem: Successfully built)
+        docker images
+        docker ps
+        sudo docker run -d -p 5000:5000 client:latest
+        docker status
+
 

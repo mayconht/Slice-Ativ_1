@@ -8,9 +8,8 @@ time = []
 
 def dockerstats():
     r = requests.post('http://192.168.2.100:5000/POST_INFO', json=os.system("docker stats --no-stream"))
-    print(r.json)
     time.append(r.json)
-    return "data posted to server"
+    return ("data posted to server", time)
     
 
 

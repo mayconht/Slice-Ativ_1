@@ -13,6 +13,7 @@ def time_per_lang():
     if not request.json:
         return json.dumps("ERRO: Verifique se o post feito esta no formato Json"), 400
     time.append(request.json)
+    print(request.json)
     return json.dumps("Sucesso: execute o metodo Get para ver os dados"), 200
 
 if __name__ == '__main__':
