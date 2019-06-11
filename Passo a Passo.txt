@@ -75,3 +75,8 @@ Subindo aplicativo no docker Worker
         docker status
 
 
+http://192.168.2.100:5000/GET_INFO 
+Irá mostrar os dados armazenados no servidor
+http://192.168.2.101:5000/GET_INFO 
+ira postar os dados do client no servidor
+
