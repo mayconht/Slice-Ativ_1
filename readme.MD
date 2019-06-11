@@ -1,5 +1,5 @@
-#Grupo 4
+Grupo 4
 
-#Jaime Leite
-#Maycon Douglas
-#William Soares
+Jaime Leite
+Maycon Douglas
+William Soares
