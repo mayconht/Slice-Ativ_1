@@ -1,10 +1,18 @@
 from flask import Flask, request
 import json
-app = Flask(__name__)
+import os
 
+app = Flask(__name__)
 time = []
+
+def dockerstats():
+    return os.system("docker stats --no-stream")
+    
+
+
 @app.route('/GET_INFO', methods=['GET'])
 def home():
+    dockerstats();
     return json.dumps(time, indent=4), 200
 
 
