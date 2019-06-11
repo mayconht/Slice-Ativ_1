@@ -45,16 +45,16 @@ Executando as configuraçoes nas VM'se
     **Janela 1 - Master**
         sudo docker swarm init --advertise-addr 192.168.2.100:2377
         (Salve o resultado, vai ser necessario na Worker)
+        exit
     **Janela 2 - Worker**
         sudo docker swarm join --token <Adicionado Token gerado no Master>
+        (voce deverá ver a mensagem This node Joined a swarm as a worker)
 
-
-
-
-
-
-
-
-
-
-
+Subindo aplicativo no docker na Master
+    **Janela 1  - Master**
+        git clone https://github.com/mayconht/Slice-Ativ_1.git
+        sudo docker build -t server:latest .
+        (vc deverá ver a mensagem: Successfully built)
+        docker images
+        docker ps
+        sudo docker run -d -p 5000:5000 server:latest
